@@ -1,0 +1,75 @@
+<?php
+
+class Contact
+{
+    private $name;
+    private $email;
+    private $phoneNumber;
+    private $address;
+    public function __construct($name, $email, $phoneNumber, $address)
+    {
+        $this->name = $name;
+        $this->email = $email;
+        $this->phoneNumber = $phoneNumber;
+        $this->address = $address;
+    }
+    public function getDetails()
+    {
+        return "Name: $this->name, Email: $this->email, Phone Number: $this->phoneNumber, Address: $this->address";
+    }
+    public function updateContact($name, $email, $phoneNumber, $address)
+    {
+        $this->name = $name;
+        $this->email = $email;
+        $this->phoneNumber = $phoneNumber;
+        $this->address = $address;
+        return "Contact updated successfully.";
+    }
+}
+
+class AddressBook
+{
+    private $contacts = [];
+    public function addContact(Contact $contact)
+    {
+        $this->contacts[] = $contact;
+        return "Contact added successfully.";
+    }
+    public function updateContact($index, $name, $email, $phoneNumber, $address)
+    {
+        if (isset($this->contacts[$index])) {
+            return $this->contacts[$index]->updateContact($name, $email, $phoneNumber, $address);
+        } else {
+            return "Contact not found.";
+        }
+    }
+    public function deleteContact($index)
+    {
+        if (isset($this->contacts[$index])) {
+            unset($this->contacts[$index]);
+            $this->contacts = array_values($this->contacts); // re-index the array
+            return "Contact deleted successfully.";
+        } else {
+            return "Contact not found.";
+        }
+    }
+    public function displayContacts()
+    {
+        $result = "";
+        foreach ($this->contacts as $index => $contact) {
+            $result .= "Index: $index, " . $contact->getDetails() . "<br>";
+        }
+        return $result;
+    }
+}
+$addressBook = new AddressBook();
+$contact1 = new Contact("John Doe", "john@example.com", "123456789", "123 Main St, City");
+$addressBook->addContact($contact1);
+$contact2 = new Contact("Jane Smith", "jane@example.com", "987654321", "456 Park Ave, Town");
+$addressBook->addContact($contact2);
+echo $addressBook->displayContacts();
+echo $addressBook->updateContact(0, "John Doe Jr", "johnjr@example.com", "999888777", "321 Elm St, Village") . "<br>";
+echo $addressBook->displayContacts();
+echo $addressBook->deleteContact(1) . "<br>";
+echo $addressBook->displayContacts();
+?>
