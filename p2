@@ -1,0 +1,29 @@
+<?php
+function isPrime($num) {
+    // Corner cases
+    if ($num <= 1) {
+        return false;
+    }
+    if ($num <= 3) {
+        return true;
+    }
+    for ($i = 2; $i <= sqrt($num); $i++) {
+        if ($num % $i == 0) {
+            return false;
+        }
+    }
+    return true;
+}
+function displayPrimeNumbers($start, $end) {
+    echo "Prime numbers between $start and $end are: <br>";
+
+    for ($i = $start; $i <= $end; $i++) {
+        if (isPrime($i)) {
+            echo $i . " ";
+        }
+    }
+}
+$start = 1;
+$end = 100;
+displayPrimeNumbers($start, $end);
+?>
