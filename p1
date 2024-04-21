@@ -1,0 +1,37 @@
+<?php
+$randomNumber = rand(1, 100);
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Retrieve the user's guess from the form
+    $userGuess = $_POST["guess"];
+
+    // Check if the user's guess is correct
+    if ($userGuess == $randomNumber) {
+        $message = "Congratulations! You guessed the correct number: $randomNumber";
+    } elseif ($userGuess < $randomNumber) {
+        $message = "Too low! Try again.";
+    } else {
+        $message = "Too high! Try again.";
+    }
+} else {
+    // If the form hasn't been submitted yet, display the initial message
+    $message = "Guess a number between 1 and 100";
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Guessing Game</title>
+</head>
+<body>
+    <h1>Number Guessing Game</h1>
+    <p><?php echo $message; ?></p>
+    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+        <label for="guess">Enter your guess:</label>
+        <input type="number" id="guess" name="guess" min="1" max="100" required>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
